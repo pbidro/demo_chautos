@@ -96,6 +96,47 @@
     @media (min-width:992px){
       .kpis{grid-template-columns:repeat(3,1fr)}
     }
+      /* ===== Demanda por región ===== */
+    .region-grid{display:grid; gap:20px; grid-template-columns:1fr}
+    
+    .panel-title{display:flex; align-items:center; gap:.6rem; font-weight:800; margin:0 0 12px}
+    .region-table{width:100%; border-collapse:separate; border-spacing:0 10px}
+    .region-row{display:grid; grid-template-columns:1.2fr .3fr 1fr; align-items:center; gap:12px}
+    .region-name{font-weight:800}
+    .region-pct{font-weight:900; text-align:right}
+    .bar{height:10px; border-radius:999px; background:var(--surface-alt); overflow:hidden; border:1px solid var(--outline)}
+    .bar-fill{height:100%; background:var(--brand); border-radius:999px}
+
+    /* Mapa estilizado */
+    :root{ --norte:#3B82F6; --centro:#22C55E; --sur:#F97316; }
+    .spine-wrap{position:relative; height:760px; padding:16px 96px 60px; background:linear-gradient(180deg, rgba(0,124,194,.06), rgba(0,124,194,.02)); border-radius:18px; border:1px solid var(--outline); overflow:hidden}
+    .spine-wrap svg{position:absolute; inset:12px 96px 36px; width:calc(100% - 192px); height:calc(100% - 48px)}
+    .chip-pin{position:absolute; left:50%; transform:translateX(-50%); width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-weight:900; color:#fff; box-shadow:var(--shadow-1); border:2px solid #fff}
+    .chip-norte{background:var(--norte)}
+    .chip-centro{background:var(--centro)}
+    .chip-sur{background:var(--sur)}
+
+    /* Costillas laterales + etiquetas */
+    .rib{position:absolute; height:2px; background:var(--outline); border-radius:2px; transform-origin:left center; --gap:26px;}
+    .rib .rib-fill{position:absolute; inset:0; background:var(--rib-color, var(--brand)); opacity:.55; border-radius:inherit}
+    .rib .nub{position:absolute; top:50%; width:12px; height:12px; border-radius:999px; background:var(--brand); transform:translateY(-50%); box-shadow:0 0 0 3px #fff, var(--shadow-1); z-index:1}
+    .rib.right .nub{right:-6px; background:var(--rib-color, var(--brand))}
+    .rib.left .nub{left:-6px; background:var(--rib-color, var(--brand))}
+    .rib.right{--ang:14deg; left:calc(50% + var(--gap)); transform:rotate(var(--ang)); z-index:1}
+    .rib.left{--ang:-14deg; left:calc(50% - var(--gap) - var(--w)); transform:rotate(var(--ang)); z-index:1}
+    .rib .rib-label{position:absolute; top:50%; transform:translateY(-50%) rotate(calc(-1*var(--ang))); background:var(--surface); color:var(--ink); border:1px solid var(--outline); border-radius:999px; padding:.42rem .8rem; font-weight:900; font-size:1.25rem; box-shadow:var(--shadow-1); white-space:nowrap; z-index:2}
+    .rib.right .rib-label{ right:-18px; }
+    .rib.left .rib-label{ left:-18px; right:auto }
+
+    /* Conector desde el pin al inicio de la costilla */
+    .stem{position:absolute; height:2px; background:var(--rib-color, var(--brand)); border-radius:2px; z-index:1; transform-origin:left center}
+    .stem.right{transform:none}
+    .stem.left{transform:none}
+
+    .zone-legend{display:flex; flex-direction:column; gap:8px; margin-top:14px; font-size:.95rem}
+    .zone-item{display:flex; align-items:flex-start; gap:10px}
+    .dot{width:12px; height:12px; border-radius:999px; margin-top:5px}
+
   </style>
 </head>
 <body>
@@ -126,21 +167,15 @@
 
   <!-- Introducción (texto contextual, sin cifras explícitas) -->
   <section class="section" id="intro">
-    <div class="container">
-      <div class="sec-title"><span class="sec-ico">🧭</span><span class="txt">Introducción</span></div>
-      <p class="sub" style="margin:0 0 10px">Propósito y alcance</p>
-      <p style="margin:0 0 10px; line-height:1.7">
-        Este informe resume tendencias observadas durante el primer semestre de 2025 en Chileautos. La información integra analítica de comportamiento (GA4), procesamiento en Databricks y registros operacionales de inventario. El objetivo es ofrecer señales claras sobre demanda, oferta y nivel de interacción para apoyar decisiones de negocio y producto; no pretende reemplazar reportes financieros ni auditorías.
-      </p>
-      <p style="margin:0 0 10px; line-height:1.7">
-        El alcance considera tráfico de la web y aplicaciones móviles, con métricas estandarizadas y controles de calidad (p. ej., exclusión de tráfico interno conocido y deduplicación de interacciones a nivel usuario/tiempo). La granularidad principal es mensual y se mantiene consistencia metodológica con periodos anteriores para asegurar comparabilidad.
-      </p>
-      <ul style="margin:0; padding-left:18px; line-height:1.7">
-        <li>Horizonte temporal: enero a junio de 2025.</li>
-        <li>Fuentes: GA4 (BigQuery), pipelines diarios en Databricks e inventario operacional.</li>
-        <li>Ámbitos: actividad de usuarios, volumen de inventario, generación de interés y preferencias de motorización.</li>
-        <li>Los valores detallados se presentan en las secciones siguientes; esta introducción evita cifras puntuales para centrarse en el contexto.</li>
-      </ul>
+    <div class="container intro-wrap">
+      <div class="sec-title" style="margin-bottom:14px"><span class="sec-ico">🧭</span><span class="txt" style="font-size:clamp(1.8rem,3vw,2.4rem)">Introducción</span></div>
+      <div class="intro-lead" style="font-size:clamp(1.06rem,1.1vw+1rem,1.28rem); line-height:1.9; letter-spacing:.1px">
+        <p style="margin:.4rem 0 1rem">Este informe existe para <strong>alinear equipos</strong>, <strong>priorizar el roadmap</strong> y <strong>medir impacto</strong> con una lectura simple del semestre. Más que una planilla, es un <em>relato de negocio</em> sobre cómo se movió la demanda, cómo respondió la oferta y dónde surgen oportunidades.</p>
+        <p style="margin:0 0 1rem">La narrativa <strong>evita tecnicismos</strong> y se enfoca en señales accionables: estacionalidad, concentración geográfica, atracción de usuarios y generación de interés. Las cifras viven en las secciones; aquí nos quedamos con el <em>para qué</em>: tomar mejores decisiones en producto, marketing y comercial.</p>
+        <div class="intro-note" style="background:var(--brand-soft); border:1px solid var(--outline); border-left:6px solid var(--brand); padding:16px 18px; border-radius:16px; color:#0f172a; margin-top:.5rem">
+          <strong>Cómo leerlo.</strong> En cada módulo pregúntate: <em>¿qué cambió?</em>, <em>¿dónde ocurrió?</em> y <em>¿qué haríamos distinto?</em> Esa es la brújula del reporte.
+        </div>
+      </div>
     </div>
   </section>
 
@@ -183,6 +218,25 @@
         <div class="fuel-tile"><div class="fuel-icon">⚡</div><div class="fuel-name">Eléctrico</div><div class="fuel-pct">0.3%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">🔥</div><div class="fuel-name">Gas</div><div class="fuel-pct">0.1%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">🚘</div><div class="fuel-name">Otros</div><div class="fuel-pct">0.7%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demanda por región -->
+  <section class="section" id="regiones">
+    <div class="container">
+      <div class="sec-title"><span class="sec-ico">🗺️</span><span class="txt">Demanda en las regiones de Chile</span></div>
+      <div class="spine-wrap" id="spineMap" aria-label="Mapa estilizado de Chile"></div>
+      <div class="zone-legend">
+        <div class="zone-item"><span class="dot" style="background:var(--norte)"></span>
+          <div><strong>Zona Norte</strong> — Arica y Parinacota, Tarapacá, Antofagasta, Atacama, Coquimbo. <em id="pctNorte"></em></div>
+        </div>
+        <div class="zone-item"><span class="dot" style="background:var(--centro)"></span>
+          <div><strong>Zona Centro</strong> — Valparaíso, Metropolitana, O'Higgins, Maule. <em id="pctCentro"></em></div>
+        </div>
+        <div class="zone-item"><span class="dot" style="background:var(--sur)"></span>
+          <div><strong>Zona Sur</strong> — Ñuble, Biobío, La Araucanía, Los Ríos, Los Lagos, Aysén, Magallanes. <em id="pctSur"></em></div>
+        </div>
       </div>
     </div>
   </section>
@@ -341,6 +395,133 @@
         data:{ labels, datasets:[{ label:'Usuarios únicos', data, borderColor:brand, backgroundColor:'transparent', fill:false, borderWidth:5, tension:.35, pointRadius:5, pointBackgroundColor:brand, pointBorderColor:'#fff', pointBorderWidth:2 }]},
         options:{ responsive:true, maintainAspectRatio:false, layout:{padding:24}, plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false }}, scales:{ x:{ grid:{display:false}}, y:{ grid:{display:false}} }}
       });
+    })();
+  </script>
+  
+  <!-- Script: construir sección Demanda por región -->
+  <script>
+    (function(){
+      const REGIONS = [
+        {name:'Región Metropolitana', code:'CL-RM', label:'RM', zone:'centro', count:1300233},
+        {name:'Biobío', code:'CL-BI', label:'VIII', zone:'sur', count:199930},
+        {name:'Valparaíso', code:'CL-VS', label:'V', zone:'centro', count:196280},
+        {name:'La Araucanía', code:'CL-AR', label:'IX', zone:'sur', count:150788},
+        {name:'Antofagasta', code:'CL-AN', label:'II', zone:'norte', count:142034},
+        {name:'Los Lagos', code:'CL-LL', label:'X', zone:'sur', count:57526},
+        {name:'Maule', code:'CL-ML', label:'VII', zone:'centro', count:49747},
+        {name:"O'Higgins", code:'CL-LI', label:'VI', zone:'centro', count:49515},
+        {name:'Coquimbo', code:'CL-CO', label:'IV', zone:'norte', count:35145},
+        {name:'Ñuble', code:'CL-NB', label:'XVI', zone:'sur', count:21399},
+        {name:'Los Ríos', code:'CL-LR', label:'XIV', zone:'sur', count:15970},
+        {name:'Atacama', code:'CL-AT', label:'III', zone:'norte', count:12760},
+        {name:'Tarapacá', code:'CL-TA', label:'I', zone:'norte', count:12210},
+        {name:'Magallanes y Antártica', code:'CL-MA', label:'XII', zone:'sur', count:8012},
+        {name:'Arica y Parinacota', code:'CL-AP', label:'XV', zone:'norte', count:6199},
+        {name:'Aysén', code:'CL-AI', label:'XI', zone:'sur', count:3756}
+      ];
+
+      // Totales y helper
+      const total = REGIONS.reduce((s,r)=>s+r.count,0);
+      const pctNum = (n)=> (n/total)*100; const pctStr = (n)=> pctNum(n).toFixed(1);
+
+      // Contenedor del mapa
+      const spine = document.getElementById('spineMap');
+      if(!spine) return;
+
+      // SVG "columna vertebral"
+      const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('viewBox','0 0 200 740');
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="spineGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#C7E6F6"/>
+            <stop offset="100%" stop-color="#DFF2FB"/>
+          </linearGradient>
+        </defs>
+        <path d="M100 20 C 120 130, 80 240, 100 350 S 80 560, 100 700 S 120 720, 100 720" fill="none" stroke="url(#spineGrad)" stroke-width="16" stroke-linecap="round"/>
+        <path d="M100 20 C 120 130, 80 240, 100 350 S 80 560, 100 700 S 120 720, 100 720" fill="none" stroke="#90D2EE" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 8"/>
+      `;
+      spine.appendChild(svg);
+
+      // Coordenadas Y (de norte a sur) y pines
+      // FIX: declarar primero el orden; así evitamos ReferenceError
+      const orderTopToBottom = ['CL-AP','CL-TA','CL-AN','CL-AT','CL-CO','CL-VS','CL-RM','CL-LI','CL-ML','CL-NB','CL-BI','CL-AR','CL-LR','CL-LL','CL-AI','CL-MA'];
+      const Y = {}; const start=40, step=44; orderTopToBottom.forEach((code,i)=>{ Y[code] = start + i*step; });
+
+      // Pines centrales por región
+      REGIONS.forEach(r=>{
+        const pin = document.createElement('div');
+        pin.className = `chip-pin chip-${r.zone}`;
+        pin.style.top = (Y[r.code]||0) + 'px';
+        pin.textContent = r.label;
+        pin.title = `${r.name} · ${pctStr(r.count)}%`;
+        spine.appendChild(pin);
+      });
+
+      // Modelo basado en IDs: {id, y, value, color}
+      const pinRadius = 17;               // ~34px de diámetro / 2
+      const offsetFromCircle = 8;         // sale desde el borde del pin + 8px
+      const elbowHoriz = offsetFromCircle; // tramo horizontal del codo
+      const ribLen = 120;                 // tramo diagonal base
+      const minGap = 16;                  // separación mínima entre etiquetas del mismo lado
+
+      const points = orderTopToBottom.map((code, idx)=>{
+        const r = REGIONS.find(x=>x.code===code);
+        const value = parseFloat(pctNum(r.count).toFixed(1));
+        const color = r.zone==='norte' ? 'var(--norte)' : (r.zone==='centro' ? 'var(--centro)' : 'var(--sur)');
+        return { id:code, y:Y[code]+17, value, color, side: (idx%2===0 ? 'left' : 'right') };
+      });
+
+      // Resolver colisiones verticales sin alterar Y del pin (ajustamos solo la etiqueta)
+      let lastLeft=-Infinity, lastRight=-Infinity;
+      points.forEach(p=>{
+        let ly = p.y; const last = (p.side==='left')?lastLeft:lastRight;
+        if (isFinite(last) && ly - last < minGap) ly = last + minGap;
+        p.labelY = ly;
+        if (p.side==='left') lastLeft = ly; else lastRight = ly;
+      });
+
+      // Auto-ajustar alto del contenedor si hace falta
+      const maxLabelY = Math.max(...points.map(p=>p.labelY));
+      const desiredHeight = Math.max(spine.clientHeight, maxLabelY + 80);
+      spine.style.height = desiredHeight + 'px';
+
+      // Dibujar conectores (codo: horizontal + diagonal) y etiquetas
+      points.forEach(p=>{
+        // --- tramo horizontal (no atraviesa el pin) ---
+        const stem = document.createElement('div');
+        stem.className = `stem ${p.side}`;
+        stem.style.top = p.y + 'px';
+        stem.style.height = '2px';
+        stem.style.width = elbowHoriz + 'px';
+        stem.style.left = p.side==='right'
+          ? `calc(50% + ${pinRadius}px)`
+          : `calc(50% - ${pinRadius}px - ${elbowHoriz}px)`;
+        stem.style.setProperty('--rib-color', p.color);
+        spine.appendChild(stem);
+
+        // --- tramo diagonal (anchura fija, ángulo calculado hacia labelY) ---
+        const dy = p.labelY - p.y;
+        const ang = Math.atan2(dy, ribLen) * 180 / Math.PI; // grados
+        const rib = document.createElement('div');
+        rib.className = `rib ${p.side}`;
+        rib.style.setProperty('--ang', `${p.side==='right'? ang : -ang}deg`);
+        rib.style.width = ribLen + 'px';
+        rib.style.top = p.y + 'px';
+        rib.style.left = p.side==='right'
+          ? `calc(50% + ${pinRadius + elbowHoriz}px)`
+          : `calc(50% - ${pinRadius + elbowHoriz}px - ${ribLen}px)`;
+        rib.style.setProperty('--rib-color', p.color);
+        rib.innerHTML = `<div class="rib-fill"></div><span class="nub"></span><span class="rib-label">${p.value.toFixed(1)}%</span>`;
+        spine.appendChild(rib);
+      });
+
+      // Porcentajes por zona en la leyenda
+      const z = {norte:0, centro:0, sur:0};
+      REGIONS.forEach(r=>{ z[r.zone]+=r.count; });
+      const pN = document.getElementById('pctNorte'); if(pN) pN.textContent = `(${pctStr(z.norte)}%)`;
+      const pC = document.getElementById('pctCentro'); if(pC) pC.textContent = `(${pctStr(z.centro)}%)`;
+      const pS = document.getElementById('pctSur');   if(pS) pS.textContent = `(${pctStr(z.sur)}%)`;
     })();
   </script>
 </body>
