@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chileautos — Informe Semestral</title>
+  <meta name="description" content="Landing responsiva con estilo carsales, KPIs, preferencias, y hero 3D con partículas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Paleta corporativa (sin degradados) */
+      --brand:#007CC2;            /* azul botón y títulos */
+      --brand-600:#005EA8;        /* hover */
+      --brand-soft:#E6F6FD;       /* suave */
+      --ink:#0F172A;              /* texto principal */
+      --sub:#475569;              /* texto secundario */
+      --surface:#FFFFFF;          /* fondo */
+      --surface-alt:#F7FAFC;      /* panel suave */
+      --outline:#DFE7EF;          /* bordes */
+      --shadow-1:0 1px 2px rgba(15, 23, 42, .06),0 1px 3px rgba(15, 23, 42, .08);
+      --shadow-2:0 8px 24px rgba(15, 23, 42, .08),0 4px 12px rgba(15, 23, 42, .06);
+      --radius:18px; --radius-sm:14px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; color:var(--ink); background:var(--surface); overflow-x:hidden; font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin-inline:auto; padding:0 20px}
+
+    /* App bar (sobre el hero 3D) */
+    .appbar{position:fixed; inset:0 0 auto 0; z-index:50; background:rgba(255,255,255,.06); backdrop-filter:saturate(160%) blur(8px); border-bottom:1px solid rgba(223,231,239,.6)}
+    .nav{height:72px; display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand-mark{width:40px; height:40px; border-radius:12px; background:var(--brand)}
+    .brand strong{font-weight:800; letter-spacing:.2px}
+    .nav-actions{display:flex; align-items:center; gap:10px}
+
+    .btn{display:inline-flex; align-items:center; gap:.7rem; padding:.85rem 1.15rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:800; box-shadow:var(--shadow-1)}
+    .btn-primary{background:var(--brand); border-color:var(--brand); color:#fff}
+    .btn-primary:hover{background:var(--brand-600); border-color:var(--brand-600)}
+
+    .chip{display:inline-flex; align-items:center; gap:.45rem; padding:.45rem .8rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface-alt); color:#334155; font-weight:800; font-size:.9rem}
+
+    .section{padding:56px 0}
+    .section > .container{background:var(--surface); border:1px solid var(--outline); border-radius:22px; box-shadow:var(--shadow-2); padding:28px 24px}
+
+    /* Títulos de sección: icono circular + texto del mismo color */
+    .sec-title{display:flex; align-items:center; gap:12px; margin:0 0 8px}
+    .sec-title .sec-ico{width:46px; height:46px; border-radius:50%; background:var(--brand); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:var(--shadow-1)}
+    .sec-title .txt{font-weight:900; color:var(--brand); font-size:clamp(1.6rem,2.2vw,2rem)}
+
+    .grid{display:grid; gap:20px}
+    .card{background:var(--surface); border:1px solid var(--outline); border-radius:var(--radius); box-shadow:var(--shadow-1)}
+    .card.pad{padding:20px}
+
+    /* ===== HERO 3D de altura completa ===== */
+    .hero3d{position:relative; height:100vh; overflow:hidden; background:var(--surface)}
+    .hero3d-canvas{position:absolute; inset:0; z-index:1; display:block}
+    .hero3d-overlay{position:relative; z-index:2; display:flex; align-items:center; justify-content:center; height:100%; text-align:center;}
+    .hero3d-inner{width:100%; max-width:980px; margin:0 auto; padding:96px 0 64px; display:flex; flex-direction:column; align-items:center}
+    .headline{margin:0; text-align:center; line-height:1.05}
+    .headline .line-1{display:block; font-size:clamp(3.2rem, 8vw, 6rem); font-weight:900; color:var(--brand)}
+    .headline .line-2{display:block; font-size:clamp(1.4rem, 3vw, 2.6rem); font-weight:800; color:var(--brand); margin-top:6px}
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
+    #btn-scroll{font-size:clamp(1.25rem, 3vw, 2rem); padding:1.1rem 1.8rem}
+
+    /* KPI cards compactas */
+    #kpis.section{padding:28px 0}
+    #kpis > .container{padding:18px 20px}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .kpi{display:flex; align-items:center; gap:18px}
+    .kpi .icon{font-size:clamp(2.6rem, 3vw, 3.4rem); line-height:1}
+    .kpi .meta{color:#334155; font-size:1rem; font-weight:800}
+    .kpi .value{font-size:clamp(1.8rem, 3vw, 2.6rem); font-weight:900; color:var(--ink)}
+
+    /* Fuel preference grid */
+    .fuel-grid{grid-template-columns:repeat(2,1fr)}
+    .fuel-tile{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border-radius:var(--radius-sm); padding:24px; border:1px solid var(--outline); box-shadow:var(--shadow-1); background:var(--surface)}
+    .fuel-icon{font-size:clamp(2.6rem, 1.5vw + 1.6rem, 3.2rem); line-height:1}
+    .fuel-name{font-weight:900; color:var(--brand)}
+    .fuel-pct{color:#0f172a; font-weight:800; font-size:1.1rem}
+
+    /* Users full-bleed chart */
+    .fullbleed{width:100vw; margin-left:calc(50% - 50vw); background:var(--surface);}
+    .users-wrap{max-width:1400px; margin:0 auto; padding:32px 20px}
+    .users-chart{height:420px}
+
+    /* Responsive */
+    @media (min-width:640px){
+      .kpis{grid-template-columns:repeat(2,1fr)}
+      .fuel-grid{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (min-width:992px){
+      .kpis{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <!-- App bar -->
+  <header class="appbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <strong>Chileautos · Reporte S1</strong>
+        <span class="chip">Beta</span>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-primary" id="btn-print">Descargar PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO 3D: ocupa toda la ventana -->
+  <section class="hero3d" id="hero3d">
+    <canvas id="stage3d" class="hero3d-canvas" aria-hidden="true"></canvas>
+    <div class="hero3d-overlay">
+      <div class="container hero3d-inner">
+        <h1 class="headline"><span class="line-1">Informe Automotriz ChileAutos</span><span class="line-2">1er Semestre 2025</span></h1>
+        <div class="cta-row"><button class="btn btn-primary" id="btn-scroll">Desliza ↓</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Introducción -->
+  <section class="section" id="intro">
+    <div class="container">
+      <div class="sec-title"><span class="sec-ico">🧭</span><span class="txt">Introducción</span></div>
+      <p class="sub" style="margin:0 0 10px">Síntesis analítica del S1 2025:</p>
+      <ul style="margin:0; padding-left:18px; line-height:1.7">
+        <li><strong>Demanda:</strong> <em>~12.6M</em> usuarios únicos en el semestre (≈ <em>2.09M/mes</em>). Pico en <strong>mayo</strong> (2.26M) y piso en <strong>febrero</strong> (1.89M).</li>
+        <li><strong>Inventario:</strong> universo de <strong>160.000+</strong> vehículos; disponibles promedio <strong>47k+</strong>.</li>
+        <li><strong>Interacción:</strong> <strong>977k+</strong> leads en S1 (≈ <strong>163k+/mes</strong>).</li>
+        <li><strong>Ticket de interés:</strong> precio promedio referencial <strong>15M+</strong> CLP.</li>
+        <li><strong>Motorización preferida:</strong> Bencina <strong>77%</strong>, Diésel <strong>21%</strong>; Híbrido <strong>1%</strong>, Eléctrico <strong>0.3%</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- KPIs principales (antes de Usuarios) -->
+  <section class="section" id="kpis">
+    <div class="container">
+      <div class="sec-title"><span class="sec-ico">📊</span><span class="txt">KPIs Clave (S1)</span></div>
+      <p class="sub">Cifras aproximadas (+) y placeholders <strong>TBD</strong> donde no hay dato aún.</p>
+      <div class="grid kpis">
+        <div class="card pad"><div class="kpi"><span class="icon">🚗</span><div><div class="meta">Vehículos totales</div><div class="value">160.000+</div></div></div></div>
+        <div class="card pad"><div class="kpi"><span class="icon">📦</span><div><div class="meta">Vehículos disponibles</div><div class="value">47k+</div></div></div></div>
+        <div class="card pad"><div class="kpi"><span class="icon">📨</span><div><div class="meta">Leads totales</div><div class="value">977k+</div></div></div></div>
+        <div class="card pad"><div class="kpi"><span class="icon">💸</span><div><div class="meta">Precio promedio interesados</div><div class="value">15M+</div></div></div></div>
+        <div class="card pad"><div class="kpi"><span class="icon">👥</span><div><div class="meta">Usuarios activos (únicos)</div><div class="value">TBD</div></div></div></div>
+        <div class="card pad"><div class="kpi"><span class="icon">🌐</span><div><div class="meta">Visitas totales S1</div><div class="value">TBD</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Usuarios únicos por mes (full-bleed) -->
+  <section id="usuarios" class="fullbleed">
+    <div class="users-wrap">
+      <div class="sec-title"><span class="sec-ico">👥</span><span class="txt">Usuarios únicos por mes · S1 2025</span></div>
+      <div class="sub" style="margin-top:8px">Total semestre: <strong id="usersTotal">—</strong></div>
+      <div style="margin-top:16px; border:1px solid var(--outline); border-radius:22px; box-shadow:var(--shadow-2); padding:16px">
+        <canvas id="usersChart" class="users-chart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preferencias por combustible -->
+  <section class="section" id="combustible">
+    <div class="container">
+      <div class="sec-title"><span class="sec-ico">⛽</span><span class="txt">Preferencias por tipo de combustible</span></div>
+      <p class="sub">Distribución de interés en búsquedas/cotizaciones por motorización.</p>
+      <div class="grid fuel-grid" aria-label="Preferencias combustible">
+        <div class="fuel-tile"><div class="fuel-icon">⛽</div><div class="fuel-name">Bencina</div><div class="fuel-pct">77%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">🛢️</div><div class="fuel-name">Diésel</div><div class="fuel-pct">21%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">🔋</div><div class="fuel-name">Híbrido</div><div class="fuel-pct">1%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">⚡</div><div class="fuel-name">Eléctrico</div><div class="fuel-pct">0.3%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">🔥</div><div class="fuel-name">Gas</div><div class="fuel-pct">0.1%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">🚘</div><div class="fuel-name">Otros</div><div class="fuel-pct">0.7%</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="section" style="border-top:1px solid var(--outline)">
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between">
+      <div class="sub">© 2025 Chileautos · Demo</div>
+      <div style="display:flex; gap:12px"><a href="#" class="sub">Privacidad</a><a href="#" class="sub">Términos</a></div>
+    </div>
+  </footer>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+
+  <!-- Hero 3D: partículas + toros con rebote -->
+  <script>
+    const canvas = document.getElementById('stage3d');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+    if (renderer.outputColorSpace !== undefined) { renderer.outputColorSpace = THREE.SRGBColorSpace; } else { renderer.outputEncoding = THREE.sRGBEncoding; }
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(0, 1.2, 5.0);
+
+    function resize(){
+      const w = window.innerWidth, h = window.innerHeight;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(w, h, true);
+      camera.aspect = w/h; camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Luces
+    const hemi = new THREE.HemisphereLight(0xffffff, 0xE6F6FD, 0.9); hemi.position.set(0, 2, 0); scene.add(hemi);
+    const dir = new THREE.DirectionalLight(0xffffff, 1.2); dir.position.set(3, 5, 3); scene.add(dir);
+
+    // Sprite circular para bokeh suave
+    function makeBokehTexture(size=128){
+      const c = document.createElement('canvas'); c.width=c.height=size; const ctx=c.getContext('2d');
+      const g = ctx.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+      g.addColorStop(0,'rgba(255,255,255,1)');
+      g.addColorStop(0.5,'rgba(255,255,255,0.4)');
+      g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(size/2,size/2,size/2,0,Math.PI*2); ctx.fill();
+      const tex = new THREE.CanvasTexture(c);
+      if (tex.colorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace; else tex.encoding = THREE.sRGBEncoding;
+      tex.needsUpdate = true; return tex;
+    }
+    const sprite = makeBokehTexture();
+
+    // Partículas (dos capas) con bokeh redondeado, banda más alta y separada
+    function makeParticles(count, size, color, spread=34){
+      const positions = new Float32Array(count * 3);
+      for (let i=0; i<count; i++){
+        positions[i*3+0] = (Math.random()-0.5) * spread;
+        positions[i*3+1] = Math.random() * (spread*0.25) - (spread*0.05); // un poco por encima del centro
+        positions[i*3+2] = (Math.random()-0.5) * spread;
+      }
+      const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ color, size, map:sprite, alphaMap:sprite, sizeAttenuation:true, transparent:true, opacity:0.85, depthWrite:false, blending:THREE.AdditiveBlending });
+      return new THREE.Points(geo, mat);
+    }
+    const layerA = makeParticles(1600, 0.12, 0x007CC2, 34);
+    const layerB = makeParticles(1000, 0.18, 0x0059C9, 42);
+    scene.add(layerA); scene.add(layerB);
+
+    // Toros más arriba y muy separados, con rebote
+    const floaters = new THREE.Group(); scene.add(floaters);
+    const torusMat = new THREE.MeshStandardMaterial({ color:0x0059C9, metalness:0.2, roughness:0.4 });
+    const TORUS_COUNT = 8;
+    const bounds = { x:7.5, y:1.6, z:5.5 }; // límites de rebote
+    const vel = [];
+    for(let i=0;i<TORUS_COUNT;i++){
+      const torus = new THREE.Mesh(new THREE.TorusGeometry(0.32, 0.09, 16, 64), torusMat);
+      torus.position.set((Math.random()-0.5)*14.0, Math.random()*1.5+0.3, (Math.random()-0.5)*11.0);
+      torus.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+      floaters.add(torus);
+      vel.push(new THREE.Vector3((Math.random()*0.8-0.4), (Math.random()*0.5-0.25), (Math.random()*0.8-0.4)));
+    }
+
+    // Interacción scroll/mouse
+    let scrollY = 0, mouseX=0, mouseY=0; const lerp = (a,b,t)=>a+(b-a)*t;
+    window.addEventListener('scroll', ()=>{ scrollY = window.scrollY || document.documentElement.scrollTop; });
+    window.addEventListener('mousemove', (e)=>{ const nx=(e.clientX/window.innerWidth)*2-1, ny=(e.clientY/window.innerHeight)*2-1; mouseX=nx; mouseY=ny; });
+
+    const clock = new THREE.Clock();
+    function animate(){
+      const t = clock.getElapsedTime(); const dt = Math.min(clock.getDelta(), 0.033);
+      // Partículas: deriva
+      layerA.rotation.y = t*0.02; layerA.position.y = Math.sin(t*0.6)*0.05;
+      layerB.rotation.y = -t*0.015; layerB.position.y = Math.cos(t*0.5)*0.05;
+
+      // Toros: movimiento + rebote
+      floaters.children.forEach((m, i)=>{
+        m.rotation.x += 0.004 + i*0.0003;
+        m.rotation.y += 0.005 + i*0.0002;
+        m.position.addScaledVector(vel[i], dt);
+        if (m.position.x > bounds.x || m.position.x < -bounds.x){ vel[i].x *= -1; m.position.x = THREE.MathUtils.clamp(m.position.x, -bounds.x, bounds.x); }
+        if (m.position.y > bounds.y || m.position.y < -bounds.y){ vel[i].y *= -1; m.position.y = THREE.MathUtils.clamp(m.position.y, -bounds.y, bounds.y); }
+        if (m.position.z > bounds.z || m.position.z < -bounds.z){ vel[i].z *= -1; m.position.z = THREE.MathUtils.clamp(m.position.z, -bounds.z, bounds.z); }
+      });
+
+      // Parallax suave
+      const progress = Math.min(scrollY / (window.innerHeight*1.2), 1);
+      camera.position.z = lerp(5.0, 3.6, progress);
+      camera.position.y = lerp(1.2, 1.0, progress);
+      floaters.rotation.x = lerp(floaters.rotation.x, mouseY*0.15, 0.08);
+      floaters.rotation.y = lerp(floaters.rotation.y, mouseX*0.2, 0.08);
+
+      renderer.render(scene, camera); requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+
+  <!-- Interacciones generales: Descargar PDF, Scroll del hero, Ocultar navbar al salir del hero -->
+  <script>
+    // Descargar como PDF (usa diálogo del navegador)
+    const printBtn = document.getElementById('btn-print');
+    if (printBtn) printBtn.addEventListener('click', () => window.print());
+
+    // Scroll suave de "Desliza ↓" hacia Usuarios
+    const scrollBtn = document.getElementById('btn-scroll');
+    if (scrollBtn) scrollBtn.addEventListener('click', ()=>{
+      const target=document.querySelector('#usuarios');
+      if(target){ target.scrollIntoView({behavior:'smooth'}); }
+    });
+
+    // Ocultar appbar cuando el hero ya no está visible
+    const hero = document.getElementById('hero3d');
+    const appbar = document.querySelector('.appbar');
+    if (hero && appbar){
+      const io = new IntersectionObserver(([e]) => {
+        appbar.style.display = e.isIntersecting ? 'block' : 'none';
+      }, {threshold:0.05});
+      io.observe(hero);
+    }
+  </script>
+
+  <!-- Chart de Usuarios -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function(){
+      const labels=['Ene','Feb','Mar','Abr','May','Jun'];
+      const data=[2057505,1889500,2230320,2100378,2260183,2021683];
+      const total=data.reduce((a,b)=>a+b,0);
+      function fmtMillions(n){ return (n/1e6).toFixed(1)+'M+'; }
+      const totalEl=document.getElementById('usersTotal'); if(totalEl) totalEl.textContent = fmtMillions(total);
+      const el=document.getElementById('usersChart'); if(!el) return;
+      const ctx=el.getContext('2d');
+      const brand = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '#007CC2';
+      new Chart(ctx,{
+        type:'line',
+        data:{ labels, datasets:[{ label:'Usuarios únicos', data, borderColor:brand, backgroundColor:'transparent', fill:false, borderWidth:5, tension:.35, pointRadius:5, pointBackgroundColor:brand, pointBorderColor:'#fff', pointBorderWidth:2 }]},
+        options:{ responsive:true, maintainAspectRatio:false, layout:{padding:24}, plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false }}, scales:{ x:{ grid:{display:false}}, y:{ grid:{display:false}} }}
+      });
+    })();
+  </script>
+</body>
+</html>
