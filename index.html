@@ -83,10 +83,10 @@
     .fuel-name{font-weight:900; color:var(--brand)}
     .fuel-pct{color:#0f172a; font-weight:800; font-size:1.1rem}
 
-    /* Users full-bleed chart */
-    .fullbleed{width:100vw; margin-left:calc(50% - 50vw); background:var(--surface);}
-    .users-wrap{max-width:1400px; margin:0 auto; padding:32px 20px}
-    .users-chart{height:420px}
+    /* USUARIOS (mismo contenedor que otras secciones) */
+    #usuarios.section{padding:28px 0}
+    #usuarios > .container{padding:18px 20px}
+    .users-chart{height:clamp(220px, 38vw, 320px)}
 
     /* Responsive */
     @media (min-width:640px){
@@ -124,17 +124,22 @@
     </div>
   </section>
 
-  <!-- Introducción -->
+  <!-- Introducción (texto contextual, sin cifras explícitas) -->
   <section class="section" id="intro">
     <div class="container">
       <div class="sec-title"><span class="sec-ico">🧭</span><span class="txt">Introducción</span></div>
-      <p class="sub" style="margin:0 0 10px">Síntesis analítica del S1 2025:</p>
+      <p class="sub" style="margin:0 0 10px">Propósito y alcance</p>
+      <p style="margin:0 0 10px; line-height:1.7">
+        Este informe resume tendencias observadas durante el primer semestre de 2025 en Chileautos. La información integra analítica de comportamiento (GA4), procesamiento en Databricks y registros operacionales de inventario. El objetivo es ofrecer señales claras sobre demanda, oferta y nivel de interacción para apoyar decisiones de negocio y producto; no pretende reemplazar reportes financieros ni auditorías.
+      </p>
+      <p style="margin:0 0 10px; line-height:1.7">
+        El alcance considera tráfico de la web y aplicaciones móviles, con métricas estandarizadas y controles de calidad (p. ej., exclusión de tráfico interno conocido y deduplicación de interacciones a nivel usuario/tiempo). La granularidad principal es mensual y se mantiene consistencia metodológica con periodos anteriores para asegurar comparabilidad.
+      </p>
       <ul style="margin:0; padding-left:18px; line-height:1.7">
-        <li><strong>Demanda:</strong> <em>~12.6M</em> usuarios únicos en el semestre (≈ <em>2.09M/mes</em>). Pico en <strong>mayo</strong> (2.26M) y piso en <strong>febrero</strong> (1.89M).</li>
-        <li><strong>Inventario:</strong> universo de <strong>160.000+</strong> vehículos; disponibles promedio <strong>47k+</strong>.</li>
-        <li><strong>Interacción:</strong> <strong>977k+</strong> leads en S1 (≈ <strong>163k+/mes</strong>).</li>
-        <li><strong>Ticket de interés:</strong> precio promedio referencial <strong>15M+</strong> CLP.</li>
-        <li><strong>Motorización preferida:</strong> Bencina <strong>77%</strong>, Diésel <strong>21%</strong>; Híbrido <strong>1%</strong>, Eléctrico <strong>0.3%</strong>.</li>
+        <li>Horizonte temporal: enero a junio de 2025.</li>
+        <li>Fuentes: GA4 (BigQuery), pipelines diarios en Databricks e inventario operacional.</li>
+        <li>Ámbitos: actividad de usuarios, volumen de inventario, generación de interés y preferencias de motorización.</li>
+        <li>Los valores detallados se presentan en las secciones siguientes; esta introducción evita cifras puntuales para centrarse en el contexto.</li>
       </ul>
     </div>
   </section>
@@ -155,12 +160,12 @@
     </div>
   </section>
 
-  <!-- Usuarios únicos por mes (full-bleed) -->
-  <section id="usuarios" class="fullbleed">
-    <div class="users-wrap">
+  <!-- Usuarios únicos por mes (mismo contenedor que el resto) -->
+  <section class="section" id="usuarios">
+    <div class="container">
       <div class="sec-title"><span class="sec-ico">👥</span><span class="txt">Usuarios únicos por mes · S1 2025</span></div>
       <div class="sub" style="margin-top:8px">Total semestre: <strong id="usersTotal">—</strong></div>
-      <div style="margin-top:16px; border:1px solid var(--outline); border-radius:22px; box-shadow:var(--shadow-2); padding:16px">
+      <div class="card pad" style="margin-top:16px">
         <canvas id="usersChart" class="users-chart"></canvas>
       </div>
     </div>
@@ -301,10 +306,10 @@
     const printBtn = document.getElementById('btn-print');
     if (printBtn) printBtn.addEventListener('click', () => window.print());
 
-    // Scroll suave de "Desliza ↓" hacia Usuarios
+    // Scroll suave de "Desliza ↓" hacia la Intro
     const scrollBtn = document.getElementById('btn-scroll');
     if (scrollBtn) scrollBtn.addEventListener('click', ()=>{
-      const target=document.querySelector('#usuarios');
+      const target=document.querySelector('#intro');
       if(target){ target.scrollIntoView({behavior:'smooth'}); }
     });
 
