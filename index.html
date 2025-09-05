@@ -137,6 +137,28 @@
     .zone-item{display:flex; align-items:flex-start; gap:10px}
     .dot{width:12px; height:12px; border-radius:999px; margin-top:5px}
 
+      /* ===== Secciones finales (Resumen / Sobre / Gracias) ===== */
+    .section-heading{font-weight:900; text-align:center; color:var(--brand); font-size:clamp(1.8rem,3.2vw,2.4rem); margin:4px 0 18px}
+    .section-sub{max-width:920px; margin:0 auto 20px; text-align:center; color:var(--sub); font-size:clamp(1rem,1.1vw+0.8rem,1.15rem)}
+
+    .summary-grid{display:grid; gap:16px}
+    @media(min-width:800px){.summary-grid{grid-template-columns:1fr 1fr}}
+    .info-card{display:flex; gap:14px; align-items:flex-start; padding:16px 18px; border:1px solid var(--outline); border-radius:16px; background:var(--surface); box-shadow:var(--shadow-1)}
+    .info-card .ico{flex:0 0 40px; height:40px; width:40px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--brand-soft); color:var(--brand); font-size:1.25rem; box-shadow:var(--shadow-1)}
+    .info-card .txt strong{font-weight:900}
+
+    .about-list{display:grid; gap:14px; max-width:980px; margin:0 auto}
+    .about-item{display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border:1px dashed var(--outline); border-radius:14px; background:var(--surface)}
+    .about-item .ico{width:34px; height:34px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--brand-soft); color:var(--brand); font-weight:900}
+
+    .final-cta .card{border-radius:20px; padding:28px 24px; text-align:center}
+    .brand-lockup{display:flex; gap:12px; align-items:center; justify-content:center; margin-bottom:8px}
+    .logo-dot{width:44px; height:44px; border-radius:12px; background:var(--brand); box-shadow:var(--shadow-1)}
+    .brand-title{font-weight:900; font-size:clamp(1.6rem,3vw,2rem); color:var(--brand)}
+    .headline-xl{font-weight:900; font-size:clamp(1.8rem,3.6vw,2.6rem); margin:6px 0 6px}
+    .muted{color:var(--sub)}
+    .pill-btn{display:inline-flex; align-items:center; gap:.6rem; background:var(--brand); color:#fff; border:1px solid var(--brand); border-radius:999px; padding:.9rem 1.2rem; font-weight:900; box-shadow:var(--shadow-1)}
+    .pill-btn:hover{background:var(--brand-600); border-color:var(--brand-600)}
   </style>
 </head>
 <body>
@@ -238,6 +260,45 @@
           <div><strong>Zona Sur</strong> — Ñuble, Biobío, La Araucanía, Los Ríos, Los Lagos, Aysén, Magallanes. <em id="pctSur"></em></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===== Resumen del sector (Chileautos) ===== -->
+  <section class="section" id="resumen">
+    <div class="container">
+      <h2 class="section-heading">Resumen del semestre</h2>
+      <p class="section-sub">Principales señales para tomar decisiones en producto, marketing y comercial. Cifras redondeadas.</p>
+      <div class="summary-grid">
+        <div class="info-card"><span class="ico">📈</span><div class="txt"><strong>Concentración geográfica:</strong> la <strong>RM</strong> aporta el <strong>57.5%</strong> de la demanda; <strong>Valparaíso</strong> un <strong>8.7%</strong>.</div></div>
+        <div class="info-card"><span class="ico">🚘</span><div class="txt"><strong>Inventario:</strong> universo de <strong>160k+ vehículos</strong> con <strong>47k+</strong> disponibles promedio.</div></div>
+        <div class="info-card"><span class="ico">🧲</span><div class="txt"><strong>Generación de interés:</strong> más de <strong>977k</strong> leads en el semestre.</div></div>
+        <div class="info-card"><span class="ico">⛽</span><div class="txt"><strong>Motorización preferida:</strong> Bencina <strong>77%</strong>, Diésel <strong>21%</strong>; Híbrido <strong>1%</strong>, Eléctrico <strong>0.3%</strong>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Sobre el informe ===== -->
+  <section class="section" id="sobre">
+    <div class="container">
+      <h2 class="section-heading">Sobre este informe</h2>
+      <div class="about-list">
+        <div class="about-item"><span class="ico">ℹ️</span><div><strong>Uso recomendado.</strong> Este documento resume tendencias semestrales para alinear equipos y priorizar el roadmap. No sustituye reportes financieros ni auditorías.</div></div>
+        <div class="about-item"><span class="ico">🔄</span><div><strong>Comparabilidad.</strong> Mantiene criterios consistentes con semestres previos para comparar estacionalidad y concentración territorial.</div></div>
+        <div class="about-item"><span class="ico">✉️</span><div><strong>Contacto.</strong> ¿Dudas o sugerencias? Escríbenos a <a href="#" class="txt">analytics@chileautos.cl</a>.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Cierre / Gracias ===== -->
+  <section class="section final-cta" id="gracias">
+    <div class="container card">
+      <div class="brand-lockup">
+        <span class="logo-dot" aria-hidden="true"></span>
+        <div class="brand-title">Chileautos</div>
+      </div>
+      <div class="headline-xl">¡Gracias por revisar nuestro informe!</div>
+      <p class="muted" style="margin:0 0 16px">Esperamos que esta radiografía del sector automotriz 2025 te haya sido útil.</p>
+      <a class="pill-btn" href="https://www.chileautos.cl" target="_blank" rel="noopener noreferrer">Visitar Chileautos.cl</a>
     </div>
   </section>
 
