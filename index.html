@@ -4,16 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Chileautos — Informe Semestral</title>
-  <meta name="description" content="Landing responsiva con estilo carsales, KPIs, preferencias, y hero 3D con partículas." />
+  <meta name="description" content="Landing responsiva con estilo ejecutivo, KPIs, preferencias y hero 3D con partículas." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Fuente más redondita y cómoda -->
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      /* Paleta corporativa (sin degradados) */
-      --brand:#007CC2;            /* azul botón y títulos */
-      --brand-600:#005EA8;        /* hover */
-      --brand-soft:#E6F6FD;       /* suave */
+      /* Paleta corporativa (ajustada hacia celeste y más saturada) */
+      --brand:#00A9E0;            /* principal (más celeste y saturado) */
+      --brand-600:#008CCB;        /* hover/dark */
+      --brand-soft:#E9F9FF;       /* suave */
       --ink:#0F172A;              /* texto principal */
       --sub:#475569;              /* texto secundario */
       --surface:#FFFFFF;          /* fondo */
@@ -21,84 +22,93 @@
       --outline:#DFE7EF;          /* bordes */
       --shadow-1:0 1px 2px rgba(15, 23, 42, .06),0 1px 3px rgba(15, 23, 42, .08);
       --shadow-2:0 8px 24px rgba(15, 23, 42, .08),0 4px 12px rgba(15, 23, 42, .06);
-      --radius:18px; --radius-sm:14px;
+      /* Bordes menos redondos */
+      --radius:12px; 
+      --radius-sm:10px;
+      --container-radius:16px;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0; color:var(--ink); background:var(--surface); overflow-x:hidden; font-family:'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+    body{
+      margin:0; color:var(--ink); background:var(--surface); overflow-x:hidden;
+      font-family:'Rubik', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      line-height:1.7; letter-spacing:.2px; text-rendering:optimizeLegibility;
+    }
     a{color:inherit; text-decoration:none}
+    p{ text-align:justify; text-justify:inter-word }
     .container{max-width:1200px; margin-inline:auto; padding:0 20px}
 
     /* App bar (sobre el hero 3D) */
     .appbar{position:fixed; inset:0 0 auto 0; z-index:50; background:rgba(255,255,255,.06); backdrop-filter:saturate(160%) blur(8px); border-bottom:1px solid rgba(223,231,239,.6)}
     .nav{height:72px; display:flex; align-items:center; justify-content:space-between}
     .brand{display:flex; align-items:center; gap:12px}
-    .brand-mark{width:40px; height:40px; border-radius:12px; background:var(--brand)}
-    .brand strong{font-weight:800; letter-spacing:.2px}
+    .brand-mark{width:40px; height:40px; border-radius:10px; background:var(--brand)}
+    .brand strong{font-weight:900; letter-spacing:.3px}
     .nav-actions{display:flex; align-items:center; gap:10px}
 
-    .btn{display:inline-flex; align-items:center; gap:.7rem; padding:.85rem 1.15rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:800; box-shadow:var(--shadow-1)}
+    .btn{display:inline-flex; align-items:center; gap:.7rem; padding:1rem 1.25rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface); color:var(--ink); cursor:pointer; font-weight:800; box-shadow:var(--shadow-1)}
     .btn-primary{background:var(--brand); border-color:var(--brand); color:#fff}
     .btn-primary:hover{background:var(--brand-600); border-color:var(--brand-600)}
 
-    .chip{display:inline-flex; align-items:center; gap:.45rem; padding:.45rem .8rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface-alt); color:#334155; font-weight:800; font-size:.9rem}
+    .chip{display:inline-flex; align-items:center; gap:.45rem; padding:.5rem .9rem; border-radius:999px; border:1px solid var(--outline); background:var(--surface-alt); color:#334155; font-weight:800; font-size:.95rem}
 
-    .section{padding:56px 0}
-    .section > .container{background:var(--surface); border:1px solid var(--outline); border-radius:22px; box-shadow:var(--shadow-2); padding:28px 24px}
+    .section{padding:64px 0}
+    .section > .container{background:var(--surface); border:1px solid var(--outline); border-radius:var(--container-radius); box-shadow:var(--shadow-2); padding:32px 26px}
 
-    /* Títulos de sección: icono circular + texto del mismo color */
-    .sec-title{display:flex; align-items:center; gap:12px; margin:0 0 8px}
-    .sec-title .sec-ico{width:46px; height:46px; border-radius:50%; background:var(--brand); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:1.2rem; box-shadow:var(--shadow-1)}
-    .sec-title .txt{font-weight:900; color:var(--brand); font-size:clamp(1.6rem,2.2vw,2rem)}
+    /* Títulos de sección: centrados, icono circular + texto */
+    .sec-title{display:flex; align-items:center; justify-content:center; gap:12px; margin:0 0 14px; text-align:center}
+    .sec-title .sec-ico{width:52px; height:52px; border-radius:50%; background:var(--brand); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:1.35rem; box-shadow:var(--shadow-1)}
+    .sec-title .txt{font-weight:900; color:var(--brand); font-size:clamp(1.9rem,2.6vw,2.4rem); letter-spacing:.3px}
 
-    .grid{display:grid; gap:20px}
+    .section-heading{font-weight:900; text-align:center; color:var(--brand); font-size:clamp(2rem,3.4vw,2.8rem); margin:6px 0 20px; letter-spacing:.3px}
+    .section-sub{max-width:980px; margin:0 auto 20px; text-align:justify; color:var(--sub); font-size:clamp(1.02rem,1.1vw+0.9rem,1.2rem)}
+
+    .grid{display:grid; gap:22px}
     .card{background:var(--surface); border:1px solid var(--outline); border-radius:var(--radius); box-shadow:var(--shadow-1)}
-    .card.pad{padding:20px}
+    .card.pad{padding:22px}
 
-    /* ===== HERO 3D de altura completa ===== */
+    /* ===== HERO 3D ===== */
     .hero3d{position:relative; height:100vh; overflow:hidden; background:var(--surface)}
     .hero3d-canvas{position:absolute; inset:0; z-index:1; display:block}
     .hero3d-overlay{position:relative; z-index:2; display:flex; align-items:center; justify-content:center; height:100%; text-align:center;}
     .hero3d-inner{width:100%; max-width:980px; margin:0 auto; padding:96px 0 64px; display:flex; flex-direction:column; align-items:center}
-    .headline{margin:0; text-align:center; line-height:1.05}
-    .headline .line-1{display:block; font-size:clamp(3.2rem, 8vw, 6rem); font-weight:900; color:var(--brand)}
-    .headline .line-2{display:block; font-size:clamp(1.4rem, 3vw, 2.6rem); font-weight:800; color:var(--brand); margin-top:6px}
-    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
-    #btn-scroll{font-size:clamp(1.25rem, 3vw, 2rem); padding:1.1rem 1.8rem}
+    .headline{margin:0; text-align:center; line-height:1.05; letter-spacing:.35px}
+    .headline .line-1{display:block; font-size:clamp(3.4rem, 8.2vw, 6.3rem); font-weight:900; color:var(--brand)}
+    .headline .line-2{display:block; font-size:clamp(1.6rem, 3.2vw, 2.8rem); font-weight:800; color:var(--brand); margin-top:8px}
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px}
+    #btn-scroll{font-size:clamp(1.35rem, 3vw, 2rem); padding:1.1rem 1.8rem}
 
     /* KPI cards compactas */
-    #kpis.section{padding:28px 0}
-    #kpis > .container{padding:18px 20px}
+    #kpis.section{padding:34px 0}
+    #kpis > .container{padding:22px 22px}
     .kpis{grid-template-columns:repeat(2,1fr)}
     .kpi{display:flex; align-items:center; gap:18px}
-    .kpi .icon{font-size:clamp(2.6rem, 3vw, 3.4rem); line-height:1}
-    .kpi .meta{color:#334155; font-size:1rem; font-weight:800}
-    .kpi .value{font-size:clamp(1.8rem, 3vw, 2.6rem); font-weight:900; color:var(--ink)}
+    .kpi .icon{font-size:clamp(2.8rem, 3vw, 3.6rem); line-height:1}
+    .kpi .meta{color:#334155; font-size:1.02rem; font-weight:800; letter-spacing:.2px}
+    .kpi .value{font-size:clamp(2rem, 3.2vw, 2.8rem); font-weight:900; color:var(--ink)}
 
     /* Fuel preference grid */
     .fuel-grid{grid-template-columns:repeat(2,1fr)}
     .fuel-tile{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border-radius:var(--radius-sm); padding:24px; border:1px solid var(--outline); box-shadow:var(--shadow-1); background:var(--surface)}
     .fuel-icon{font-size:clamp(2.6rem, 1.5vw + 1.6rem, 3.2rem); line-height:1}
     .fuel-name{font-weight:900; color:var(--brand)}
-    .fuel-pct{color:#0f172a; font-weight:800; font-size:1.1rem}
+    .fuel-pct{color:#0f172a; font-weight:800; font-size:1.12rem}
 
     /* USUARIOS (mismo contenedor que otras secciones) */
-    #usuarios.section{padding:28px 0}
-    #usuarios > .container{padding:18px 20px}
-    .users-chart{height:clamp(220px, 38vw, 320px)}
+    #usuarios.section{padding:34px 0}
+    #usuarios > .container{padding:22px 22px}
+    .users-chart{height:clamp(240px, 40vw, 340px)}
 
     /* Responsive */
     @media (min-width:640px){
-      .kpis{grid-template-columns:repeat(2,1fr)}
+      .kpis{grid-template-columns:repeat(3,1fr)}
       .fuel-grid{grid-template-columns:repeat(3,1fr)}
     }
-    @media (min-width:992px){
-      .kpis{grid-template-columns:repeat(3,1fr)}
-    }
-      /* ===== Demanda por región ===== */
+
+    /* ===== Demanda por región ===== */
     .region-grid{display:grid; gap:20px; grid-template-columns:1fr}
-    
     .panel-title{display:flex; align-items:center; gap:.6rem; font-weight:800; margin:0 0 12px}
     .region-table{width:100%; border-collapse:separate; border-spacing:0 10px}
     .region-row{display:grid; grid-template-columns:1.2fr .3fr 1fr; align-items:center; gap:12px}
@@ -109,7 +119,7 @@
 
     /* Mapa estilizado */
     :root{ --norte:#3B82F6; --centro:#22C55E; --sur:#F97316; }
-    .spine-wrap{position:relative; height:760px; padding:16px 96px 60px; background:linear-gradient(180deg, rgba(0,124,194,.06), rgba(0,124,194,.02)); border-radius:18px; border:1px solid var(--outline); overflow:hidden}
+    .spine-wrap{position:relative; height:760px; padding:16px 96px 60px; background:linear-gradient(180deg, rgba(0,169,224,.06), rgba(0,169,224,.02)); border-radius:var(--radius); border:1px solid var(--outline); overflow:hidden}
     .spine-wrap svg{position:absolute; inset:12px 96px 36px; width:calc(100% - 192px); height:calc(100% - 48px)}
     .chip-pin{position:absolute; left:50%; transform:translateX(-50%); width:34px; height:34px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-weight:900; color:#fff; box-shadow:var(--shadow-1); border:2px solid #fff}
     .chip-norte{background:var(--norte)}
@@ -124,40 +134,34 @@
     .rib.left .nub{left:-6px; background:var(--rib-color, var(--brand))}
     .rib.right{--ang:14deg; left:calc(50% + var(--gap)); transform:rotate(var(--ang)); z-index:1}
     .rib.left{--ang:-14deg; left:calc(50% - var(--gap) - var(--w)); transform:rotate(var(--ang)); z-index:1}
-    .rib .rib-label{position:absolute; top:50%; transform:translateY(-50%) rotate(calc(-1*var(--ang))); background:var(--surface); color:var(--ink); border:1px solid var(--outline); border-radius:999px; padding:.42rem .8rem; font-weight:900; font-size:1.25rem; box-shadow:var(--shadow-1); white-space:nowrap; z-index:2}
+    .rib .rib-label{position:absolute; top:50%; transform:translateY(-50%) rotate(calc(-1*var(--ang))); background:var(--surface); color:var(--ink); border:1px solid var(--outline); border-radius:999px; padding:.5rem .9rem; font-weight:900; font-size:1.25rem; box-shadow:var(--shadow-1); white-space:nowrap; z-index:2}
     .rib.right .rib-label{ right:-18px; }
     .rib.left .rib-label{ left:-18px; right:auto }
 
-    /* Conector desde el pin al inicio de la costilla */
     .stem{position:absolute; height:2px; background:var(--rib-color, var(--brand)); border-radius:2px; z-index:1; transform-origin:left center}
     .stem.right{transform:none}
     .stem.left{transform:none}
 
-    .zone-legend{display:flex; flex-direction:column; gap:8px; margin-top:14px; font-size:.95rem}
+    .zone-legend{display:flex; flex-direction:column; gap:8px; margin-top:14px; font-size:1rem}
     .zone-item{display:flex; align-items:flex-start; gap:10px}
     .dot{width:12px; height:12px; border-radius:999px; margin-top:5px}
 
-      /* ===== Secciones finales (Resumen / Sobre / Gracias) ===== */
-    .section-heading{font-weight:900; text-align:center; color:var(--brand); font-size:clamp(1.8rem,3.2vw,2.4rem); margin:4px 0 18px}
-    .section-sub{max-width:920px; margin:0 auto 20px; text-align:center; color:var(--sub); font-size:clamp(1rem,1.1vw+0.8rem,1.15rem)}
-
-    .summary-grid{display:grid; gap:16px}
-    @media(min-width:800px){.summary-grid{grid-template-columns:1fr 1fr}}
-    .info-card{display:flex; gap:14px; align-items:flex-start; padding:16px 18px; border:1px solid var(--outline); border-radius:16px; background:var(--surface); box-shadow:var(--shadow-1)}
-    .info-card .ico{flex:0 0 40px; height:40px; width:40px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--brand-soft); color:var(--brand); font-size:1.25rem; box-shadow:var(--shadow-1)}
+    /* Tarjetas informativas */
+    .info-card{display:flex; gap:14px; align-items:flex-start; padding:18px 20px; border:1px solid var(--outline); border-radius:var(--radius); background:var(--surface); box-shadow:var(--shadow-1)}
+    .info-card .ico{flex:0 0 42px; height:42px; width:42px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--brand-soft); color:var(--brand); font-size:1.25rem; box-shadow:var(--shadow-1)}
     .info-card .txt strong{font-weight:900}
 
     .about-list{display:grid; gap:14px; max-width:980px; margin:0 auto}
-    .about-item{display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border:1px dashed var(--outline); border-radius:14px; background:var(--surface)}
+    .about-item{display:flex; gap:12px; align-items:flex-start; padding:14px 16px; border:1px dashed var(--outline); border-radius:12px; background:var(--surface)}
     .about-item .ico{width:34px; height:34px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--brand-soft); color:var(--brand); font-weight:900}
 
-    .final-cta .card{border-radius:20px; padding:28px 24px; text-align:center}
+    .final-cta .card{border-radius:16px; padding:30px 26px; text-align:center}
     .brand-lockup{display:flex; gap:12px; align-items:center; justify-content:center; margin-bottom:8px}
-    .logo-dot{width:44px; height:44px; border-radius:12px; background:var(--brand); box-shadow:var(--shadow-1)}
-    .brand-title{font-weight:900; font-size:clamp(1.6rem,3vw,2rem); color:var(--brand)}
-    .headline-xl{font-weight:900; font-size:clamp(1.8rem,3.6vw,2.6rem); margin:6px 0 6px}
+    .logo-dot{width:44px; height:44px; border-radius:10px; background:var(--brand); box-shadow:var(--shadow-1)}
+    .brand-title{font-weight:900; font-size:clamp(1.8rem,3vw,2.1rem); color:var(--brand)}
+    .headline-xl{font-weight:900; font-size:clamp(2rem,3.6vw,2.8rem); margin:8px 0 8px; letter-spacing:.3px}
     .muted{color:var(--sub)}
-    .pill-btn{display:inline-flex; align-items:center; gap:.6rem; background:var(--brand); color:#fff; border:1px solid var(--brand); border-radius:999px; padding:.9rem 1.2rem; font-weight:900; box-shadow:var(--shadow-1)}
+    .pill-btn{display:inline-flex; align-items:center; gap:.6rem; background:var(--brand); color:#fff; border:1px solid var(--brand); border-radius:999px; padding:.95rem 1.25rem; font-weight:900; box-shadow:var(--shadow-1)}
     .pill-btn:hover{background:var(--brand-600); border-color:var(--brand-600)}
   </style>
 </head>
@@ -176,52 +180,91 @@
     </div>
   </header>
 
-  <!-- HERO 3D: ocupa toda la ventana -->
+  <!-- HERO 3D -->
   <section class="hero3d" id="hero3d">
     <canvas id="stage3d" class="hero3d-canvas" aria-hidden="true"></canvas>
     <div class="hero3d-overlay">
       <div class="container hero3d-inner">
-        <h1 class="headline"><span class="line-1">Informe Automotriz ChileAutos</span><span class="line-2">1er Semestre 2025</span></h1>
+        <h1 class="headline">
+          <span class="line-1">Informe Automotriz Chileautos</span>
+          <span class="line-2">1er Semestre 2025</span>
+        </h1>
         <div class="cta-row"><button class="btn btn-primary" id="btn-scroll">Desliza ↓</button></div>
       </div>
     </div>
   </section>
 
-  <!-- Introducción (texto contextual, sin cifras explícitas) -->
+  <!-- Introducción (nuevo texto, más empresarial) -->
   <section class="section" id="intro">
     <div class="container intro-wrap">
-      <div class="sec-title" style="margin-bottom:14px"><span class="sec-ico">🧭</span><span class="txt" style="font-size:clamp(1.8rem,3vw,2.4rem)">Introducción</span></div>
-      <div class="intro-lead" style="font-size:clamp(1.06rem,1.1vw+1rem,1.28rem); line-height:1.9; letter-spacing:.1px">
-        <p style="margin:.4rem 0 1rem">Este informe existe para <strong>alinear equipos</strong>, <strong>priorizar el roadmap</strong> y <strong>medir impacto</strong> con una lectura simple del semestre. Más que una planilla, es un <em>relato de negocio</em> sobre cómo se movió la demanda, cómo respondió la oferta y dónde surgen oportunidades.</p>
-        <p style="margin:0 0 1rem">La narrativa <strong>evita tecnicismos</strong> y se enfoca en señales accionables: estacionalidad, concentración geográfica, atracción de usuarios y generación de interés. Las cifras viven en las secciones; aquí nos quedamos con el <em>para qué</em>: tomar mejores decisiones en producto, marketing y comercial.</p>
-        <div class="intro-note" style="background:var(--brand-soft); border:1px solid var(--outline); border-left:6px solid var(--brand); padding:16px 18px; border-radius:16px; color:#0f172a; margin-top:.5rem">
-          <strong>Cómo leerlo.</strong> En cada módulo pregúntate: <em>¿qué cambió?</em>, <em>¿dónde ocurrió?</em> y <em>¿qué haríamos distinto?</em> Esa es la brújula del reporte.
+      <div class="sec-title">
+        <span class="sec-ico">🧭</span>
+        <span class="txt">Introducción</span>
+      </div>
+      <div class="intro-lead" style="font-size:clamp(1.08rem,1.1vw+1rem,1.28rem); line-height:1.9; letter-spacing:.15px">
+        <p style="margin:.4rem 0 1rem">
+          Este documento entrega una lectura ejecutiva del desempeño del sitio y del mercado durante el primer semestre de 2025. El foco es práctico: qué señales mueven la aguja en crecimiento, monetización y experiencia, y cómo capitalizarlas con producto, marketing y gestión comercial.
+        </p>
+        <p style="margin:0 0 1rem">
+          Cubrimos tracción (usuarios y visitas), generación de demanda (leads), profundidad de oferta (stock) y distribución territorial, junto con el mix de motorizaciones que concentra la intención de compra. Todas las cifras se presentan de forma sintética y accionable para facilitar la toma de decisiones.
+        </p>
+        <div class="intro-note" style="background:var(--brand-soft); border:1px solid var(--outline); border-left:6px solid var(--brand); padding:16px 18px; border-radius:12px; color:#0f172a; margin-top:.5rem">
+          <strong>Cómo utilizarlo.</strong> En cada sección, identifica: <em>la tendencia</em> (qué cambió), <em>dónde ocurre</em> (territorio o segmento) y <em>la acción</em> (qué haríamos distinto). Esa es la brújula del informe.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- KPIs principales (antes de Usuarios) -->
+  <!-- Big Numbers (antes KPIs) -->
   <section class="section" id="kpis">
     <div class="container">
-      <div class="sec-title"><span class="sec-ico">📊</span><span class="txt">KPIs Clave (S1)</span></div>
-      <p class="sub">Cifras aproximadas (+) y placeholders <strong>TBD</strong> donde no hay dato aún.</p>
+      <div class="sec-title"><span class="sec-ico">📊</span><span class="txt">Big Numbers</span></div>
+      <p class="section-sub">Indicadores clave del semestre. Cifras redondeadas para lectura ejecutiva.</p>
       <div class="grid kpis">
-        <div class="card pad"><div class="kpi"><span class="icon">🚗</span><div><div class="meta">Vehículos totales</div><div class="value">160.000+</div></div></div></div>
-        <div class="card pad"><div class="kpi"><span class="icon">📦</span><div><div class="meta">Vehículos disponibles</div><div class="value">47k+</div></div></div></div>
-        <div class="card pad"><div class="kpi"><span class="icon">📨</span><div><div class="meta">Leads totales</div><div class="value">977k+</div></div></div></div>
-        <div class="card pad"><div class="kpi"><span class="icon">💸</span><div><div class="meta">Precio promedio interesados</div><div class="value">15M+</div></div></div></div>
-        <div class="card pad"><div class="kpi"><span class="icon">👥</span><div><div class="meta">Usuarios activos (únicos)</div><div class="value">TBD</div></div></div></div>
-        <div class="card pad"><div class="kpi"><span class="icon">🌐</span><div><div class="meta">Visitas totales S1</div><div class="value">TBD</div></div></div></div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">🚗</span>
+            <div><div class="meta">Vehículos totales</div><div class="value">160K+</div></div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">📦</span>
+            <div><div class="meta">Vehículos disponibles</div><div class="value">47K+</div></div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">📨</span>
+            <div><div class="meta">Leads totales</div><div class="value">977K+</div></div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">💸</span>
+            <div><div class="meta">Precio promedio interesados</div><div class="value">15M+</div></div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">👥</span>
+            <div><div class="meta">Usuarios promedio activos</div><div class="value" id="kpiUsersAvg">2M+</div></div>
+          </div>
+        </div>
+        <div class="card pad">
+          <div class="kpi">
+            <span class="icon">🌐</span>
+            <div><div class="meta">Visitas totales S1</div><div class="value" id="kpiVisits">30M+</div></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Usuarios únicos por mes (mismo contenedor que el resto) -->
+  <!-- Usuarios únicos por mes -->
   <section class="section" id="usuarios">
     <div class="container">
       <div class="sec-title"><span class="sec-ico">👥</span><span class="txt">Usuarios únicos por mes · S1 2025</span></div>
-      <div class="sub" style="margin-top:8px">Total semestre: <strong id="usersTotal">—</strong></div>
       <div class="card pad" style="margin-top:16px">
         <canvas id="usersChart" class="users-chart"></canvas>
       </div>
@@ -232,14 +275,14 @@
   <section class="section" id="combustible">
     <div class="container">
       <div class="sec-title"><span class="sec-ico">⛽</span><span class="txt">Preferencias por tipo de combustible</span></div>
-      <p class="sub">Distribución de interés en búsquedas/cotizaciones por motorización.</p>
+      <p class="section-sub">Distribución del interés en búsquedas y cotizaciones por motorización.</p>
       <div class="grid fuel-grid" aria-label="Preferencias combustible">
         <div class="fuel-tile"><div class="fuel-icon">⛽</div><div class="fuel-name">Bencina</div><div class="fuel-pct">77%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">🛢️</div><div class="fuel-name">Diésel</div><div class="fuel-pct">21%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">🔋</div><div class="fuel-name">Híbrido</div><div class="fuel-pct">1%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">⚡</div><div class="fuel-name">Eléctrico</div><div class="fuel-pct">0.3%</div></div>
         <div class="fuel-tile"><div class="fuel-icon">🔥</div><div class="fuel-name">Gas</div><div class="fuel-pct">0.1%</div></div>
-        <div class="fuel-tile"><div class="fuel-icon">🚘</div><div class="fuel-name">Otros</div><div class="fuel-pct">0.7%</div></div>
+        <div class="fuel-tile"><div class="fuel-icon">🚘</div><div class="fuel-name">Sin Preferencia</div><div class="fuel-pct">0.7%</div></div>
       </div>
     </div>
   </section>
@@ -263,41 +306,70 @@
     </div>
   </section>
 
-  <!-- ===== Resumen del sector (Chileautos) ===== -->
+  <!-- Panorama ejecutivo (antes Resumen) -->
   <section class="section" id="resumen">
     <div class="container">
-      <h2 class="section-heading">Resumen del semestre</h2>
-      <p class="section-sub">Principales señales para tomar decisiones en producto, marketing y comercial. Cifras redondeadas.</p>
-      <div class="summary-grid">
-        <div class="info-card"><span class="ico">📈</span><div class="txt"><strong>Concentración geográfica:</strong> la <strong>RM</strong> aporta el <strong>57.5%</strong> de la demanda; <strong>Valparaíso</strong> un <strong>8.7%</strong>.</div></div>
-        <div class="info-card"><span class="ico">🚘</span><div class="txt"><strong>Inventario:</strong> universo de <strong>160k+ vehículos</strong> con <strong>47k+</strong> disponibles promedio.</div></div>
-        <div class="info-card"><span class="ico">🧲</span><div class="txt"><strong>Generación de interés:</strong> más de <strong>977k</strong> leads en el semestre.</div></div>
-        <div class="info-card"><span class="ico">⛽</span><div class="txt"><strong>Motorización preferida:</strong> Bencina <strong>77%</strong>, Diésel <strong>21%</strong>; Híbrido <strong>1%</strong>, Eléctrico <strong>0.3%</strong>.</div></div>
+      <h2 class="section-heading">Panorama ejecutivo</h2>
+      <p class="section-sub">Señales prioritarias para la decisión comercial, de producto y marketing. Cifras redondeadas.</p>
+      <div class="grid summary-grid" style="grid-template-columns:1fr 1fr; gap:16px">
+        <div class="info-card">
+          <span class="ico">📈</span>
+          <div class="txt">
+            <strong>Concentración territorial.</strong> La Región Metropolitana concentra cerca del <strong>57.5%</strong> de la demanda; <strong>Valparaíso</strong> aporta en torno al <strong>8.7%</strong>. Implica priorizar inventario, pauta y oferta de valor en estos polos.
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="ico">🚘</span>
+          <div class="txt">
+            <strong>Profundidad de oferta.</strong> Universo de <strong>160K+</strong> vehículos y un disponible promedio de <strong>47K+</strong>. Recomendación: asegurar cobertura y frescura del stock en segmentos de mayor rotación.
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="ico">🧲</span>
+          <div class="txt">
+            <strong>Interés comercial.</strong> Más de <strong>977K</strong> leads en el período. Oportunidad en optimizar el funnel: calidad del contacto, SLA de respuesta y atribución de origen.
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="ico">⛽</span>
+          <div class="txt">
+            <strong>Preferencias de motorización.</strong> Bencina (<strong>77%</strong>) y Diésel (<strong>21%</strong>) concentran la intención; Híbrido (<strong>1%</strong>) y Eléctrico (<strong>0.3%</strong>) crecen desde bases bajas.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Sobre el informe ===== -->
+  <!-- Alcance y metodología (antes "Sobre este informe") -->
   <section class="section" id="sobre">
     <div class="container">
-      <h2 class="section-heading">Sobre este informe</h2>
+      <h2 class="section-heading">Alcance y metodología</h2>
       <div class="about-list">
-        <div class="about-item"><span class="ico">ℹ️</span><div><strong>Uso recomendado.</strong> Este documento resume tendencias semestrales para alinear equipos y priorizar el roadmap. No sustituye reportes financieros ni auditorías.</div></div>
-        <div class="about-item"><span class="ico">🔄</span><div><strong>Comparabilidad.</strong> Mantiene criterios consistentes con semestres previos para comparar estacionalidad y concentración territorial.</div></div>
-        <div class="about-item"><span class="ico">✉️</span><div><strong>Contacto.</strong> ¿Dudas o sugerencias? Escríbenos a <a href="#" class="txt">analytics@chileautos.cl</a>.</div></div>
+        <div class="about-item">
+          <span class="ico">ℹ️</span>
+          <div><strong>Propósito.</strong> Síntesis ejecutiva para alinear equipos y priorizar iniciativas. No reemplaza estados financieros ni auditorías.</div>
+        </div>
+        <div class="about-item">
+          <span class="ico">🔄</span>
+          <div><strong>Comparabilidad.</strong> Criterios consistentes con semestres previos para observar estacionalidad y concentración territorial.</div>
+        </div>
+        <div class="about-item">
+          <span class="ico">✉️</span>
+          <div><strong>Contacto.</strong> Comentarios o mejoras: <a href="#" class="txt">analytics@chileautos.cl</a>.</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Cierre / Gracias ===== -->
+  <!-- Cierre -->
   <section class="section final-cta" id="gracias">
     <div class="container card">
       <div class="brand-lockup">
         <span class="logo-dot" aria-hidden="true"></span>
         <div class="brand-title">Chileautos</div>
       </div>
-      <div class="headline-xl">¡Gracias por revisar nuestro informe!</div>
-      <p class="muted" style="margin:0 0 16px">Esperamos que esta radiografía del sector automotriz 2025 te haya sido útil.</p>
+      <div class="headline-xl">Gracias por revisar el informe.</div>
+      <p class="muted" style="margin:0 0 16px; text-align:center">Esperamos que esta radiografía del mercado automotriz 2025 facilite tu próxima decisión.</p>
       <a class="pill-btn" href="https://www.chileautos.cl" target="_blank" rel="noopener noreferrer">Visitar Chileautos.cl</a>
     </div>
   </section>
@@ -313,7 +385,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
 
-  <!-- Hero 3D: partículas + toros con rebote -->
+  <!-- Hero 3D: partículas + toros con rebote (sin cambios funcionales) -->
   <script>
     const canvas = document.getElementById('stage3d');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
@@ -334,7 +406,7 @@
     window.addEventListener('resize', resize);
 
     // Luces
-    const hemi = new THREE.HemisphereLight(0xffffff, 0xE6F6FD, 0.9); hemi.position.set(0, 2, 0); scene.add(hemi);
+    const hemi = new THREE.HemisphereLight(0xffffff, 0xE9F9FF, 0.9); hemi.position.set(0, 2, 0); scene.add(hemi);
     const dir = new THREE.DirectionalLight(0xffffff, 1.2); dir.position.set(3, 5, 3); scene.add(dir);
 
     // Sprite circular para bokeh suave
@@ -351,27 +423,27 @@
     }
     const sprite = makeBokehTexture();
 
-    // Partículas (dos capas) con bokeh redondeado, banda más alta y separada
+    // Partículas
     function makeParticles(count, size, color, spread=34){
       const positions = new Float32Array(count * 3);
       for (let i=0; i<count; i++){
         positions[i*3+0] = (Math.random()-0.5) * spread;
-        positions[i*3+1] = Math.random() * (spread*0.25) - (spread*0.05); // un poco por encima del centro
+        positions[i*3+1] = Math.random() * (spread*0.25) - (spread*0.05);
         positions[i*3+2] = (Math.random()-0.5) * spread;
       }
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       const mat = new THREE.PointsMaterial({ color, size, map:sprite, alphaMap:sprite, sizeAttenuation:true, transparent:true, opacity:0.85, depthWrite:false, blending:THREE.AdditiveBlending });
       return new THREE.Points(geo, mat);
     }
-    const layerA = makeParticles(1600, 0.12, 0x007CC2, 34);
-    const layerB = makeParticles(1000, 0.18, 0x0059C9, 42);
+    const layerA = makeParticles(1600, 0.12, 0x00A9E0, 34);
+    const layerB = makeParticles(1000, 0.18, 0x008CCB, 42);
     scene.add(layerA); scene.add(layerB);
 
-    // Toros más arriba y muy separados, con rebote
+    // Toros
     const floaters = new THREE.Group(); scene.add(floaters);
-    const torusMat = new THREE.MeshStandardMaterial({ color:0x0059C9, metalness:0.2, roughness:0.4 });
+    const torusMat = new THREE.MeshStandardMaterial({ color:0x008CCB, metalness:0.2, roughness:0.4 });
     const TORUS_COUNT = 8;
-    const bounds = { x:7.5, y:1.6, z:5.5 }; // límites de rebote
+    const bounds = { x:7.5, y:1.6, z:5.5 };
     const vel = [];
     for(let i=0;i<TORUS_COUNT;i++){
       const torus = new THREE.Mesh(new THREE.TorusGeometry(0.32, 0.09, 16, 64), torusMat);
@@ -389,11 +461,9 @@
     const clock = new THREE.Clock();
     function animate(){
       const t = clock.getElapsedTime(); const dt = Math.min(clock.getDelta(), 0.033);
-      // Partículas: deriva
       layerA.rotation.y = t*0.02; layerA.position.y = Math.sin(t*0.6)*0.05;
       layerB.rotation.y = -t*0.015; layerB.position.y = Math.cos(t*0.5)*0.05;
 
-      // Toros: movimiento + rebote
       floaters.children.forEach((m, i)=>{
         m.rotation.x += 0.004 + i*0.0003;
         m.rotation.y += 0.005 + i*0.0002;
@@ -403,7 +473,6 @@
         if (m.position.z > bounds.z || m.position.z < -bounds.z){ vel[i].z *= -1; m.position.z = THREE.MathUtils.clamp(m.position.z, -bounds.z, bounds.z); }
       });
 
-      // Parallax suave
       const progress = Math.min(scrollY / (window.innerHeight*1.2), 1);
       camera.position.z = lerp(5.0, 3.6, progress);
       camera.position.y = lerp(1.2, 1.0, progress);
@@ -415,7 +484,7 @@
     animate();
   </script>
 
-  <!-- Interacciones generales: Descargar PDF, Scroll del hero, Ocultar navbar al salir del hero -->
+  <!-- Interacciones generales -->
   <script>
     // Descargar como PDF (usa diálogo del navegador)
     const printBtn = document.getElementById('btn-print');
@@ -443,23 +512,80 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     (function(){
-      const labels=['Ene','Feb','Mar','Abr','May','Jun'];
+      // Meses con nombre completo
+      const labels=['Enero','Febrero','Marzo','Abril','Mayo','Junio'];
       const data=[2057505,1889500,2230320,2100378,2260183,2021683];
-      const total=data.reduce((a,b)=>a+b,0);
-      function fmtMillions(n){ return (n/1e6).toFixed(1)+'M+'; }
-      const totalEl=document.getElementById('usersTotal'); if(totalEl) totalEl.textContent = fmtMillions(total);
+
+      // Formateos compactos
+      const fmtCompact = (n)=>{
+        const abs = Math.abs(n);
+        if (abs >= 1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'') + 'M';
+        if (abs >= 1e3) return (n/1e3).toFixed(0) + 'K';
+        return String(n);
+      };
+      const fmtMillionsPlus = (n)=> (n/1e6).toFixed(1).replace(/\.0$/,'') + 'M+';
+
+      // Total y promedio (KPI promedio redondeado a millones -> "2M+")
+      const total = data.reduce((a,b)=>a+b,0);
+      const avg = total / data.length;
+      const avgMillionsRounded = Math.round(avg/1e6) + 'M+';
+      const totalEl=document.getElementById('usersTotal'); 
+      if(totalEl) totalEl.textContent = fmtMillionsPlus(total);
+      const avgEl=document.getElementById('kpiUsersAvg'); 
+      if (avgEl) avgEl.textContent = avgMillionsRounded;
+
+      // Visitas totales S1 -> 30M+ (dato entregado)
+      const visitsEl = document.getElementById('kpiVisits');
+      if (visitsEl) visitsEl.textContent = '30M+';
+
       const el=document.getElementById('usersChart'); if(!el) return;
       const ctx=el.getContext('2d');
-      const brand = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '#007CC2';
+      const brand = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim() || '#00A9E0';
       new Chart(ctx,{
         type:'line',
-        data:{ labels, datasets:[{ label:'Usuarios únicos', data, borderColor:brand, backgroundColor:'transparent', fill:false, borderWidth:5, tension:.35, pointRadius:5, pointBackgroundColor:brand, pointBorderColor:'#fff', pointBorderWidth:2 }]},
-        options:{ responsive:true, maintainAspectRatio:false, layout:{padding:24}, plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false }}, scales:{ x:{ grid:{display:false}}, y:{ grid:{display:false}} }}
+        data:{ 
+          labels, 
+          datasets:[{ 
+            label:'Usuarios únicos', 
+            data, 
+            borderColor:brand, 
+            backgroundColor:'transparent', 
+            fill:false, 
+            borderWidth:5, 
+            tension:.35, 
+            pointRadius:5, 
+            pointBackgroundColor:brand, 
+            pointBorderColor:'#fff', 
+            pointBorderWidth:2 
+          }]
+        },
+        options:{ 
+          responsive:true, 
+          maintainAspectRatio:false, 
+          layout:{padding:24}, 
+          plugins:{ 
+            legend:{display:false}, 
+            tooltip:{ 
+              mode:'index', 
+              intersect:false,
+              callbacks:{
+                label:(ctx)=> ` ${ctx.dataset.label}: ${fmtCompact(ctx.parsed.y)}`
+              }
+            }
+          }, 
+          scales:{ 
+            x:{ grid:{display:false}}, 
+            y:{ 
+              grid:{display:false},
+              ticks:{ callback:(v)=> fmtCompact(v) }
+            } 
+          }
+        }
       });
     })();
   </script>
   
-  <!-- Script: construir sección Demanda por región -->
+  <!-- Script: construir sección Demanda por región (sin cambios en datos) -->
   <script>
     (function(){
       const REGIONS = [
@@ -481,15 +607,12 @@
         {name:'Aysén', code:'CL-AI', label:'XI', zone:'sur', count:3756}
       ];
 
-      // Totales y helper
       const total = REGIONS.reduce((s,r)=>s+r.count,0);
       const pctNum = (n)=> (n/total)*100; const pctStr = (n)=> pctNum(n).toFixed(1);
 
-      // Contenedor del mapa
       const spine = document.getElementById('spineMap');
       if(!spine) return;
 
-      // SVG "columna vertebral"
       const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
       svg.setAttribute('viewBox','0 0 200 740');
       svg.innerHTML = `
@@ -504,12 +627,9 @@
       `;
       spine.appendChild(svg);
 
-      // Coordenadas Y (de norte a sur) y pines
-      // FIX: declarar primero el orden; así evitamos ReferenceError
       const orderTopToBottom = ['CL-AP','CL-TA','CL-AN','CL-AT','CL-CO','CL-VS','CL-RM','CL-LI','CL-ML','CL-NB','CL-BI','CL-AR','CL-LR','CL-LL','CL-AI','CL-MA'];
       const Y = {}; const start=40, step=44; orderTopToBottom.forEach((code,i)=>{ Y[code] = start + i*step; });
 
-      // Pines centrales por región
       REGIONS.forEach(r=>{
         const pin = document.createElement('div');
         pin.className = `chip-pin chip-${r.zone}`;
@@ -519,21 +639,19 @@
         spine.appendChild(pin);
       });
 
-      // Modelo basado en IDs: {id, y, value, color}
-      const pinRadius = 17;               // ~34px de diámetro / 2
-      const offsetFromCircle = 8;         // sale desde el borde del pin + 8px
-      const elbowHoriz = offsetFromCircle; // tramo horizontal del codo
-      const ribLen = 120;                 // tramo diagonal base
-      const minGap = 16;                  // separación mínima entre etiquetas del mismo lado
+      const pinRadius = 17;               
+      const offsetFromCircle = 8;         
+      const elbowHoriz = offsetFromCircle; 
+      const ribLen = 120;                 
+      const minGap = 16;                  
 
       const points = orderTopToBottom.map((code, idx)=>{
         const r = REGIONS.find(x=>x.code===code);
-        const value = parseFloat(pctNum(r.count).toFixed(1));
+        const value = parseFloat(((r.count/total)*100).toFixed(1));
         const color = r.zone==='norte' ? 'var(--norte)' : (r.zone==='centro' ? 'var(--centro)' : 'var(--sur)');
         return { id:code, y:Y[code]+17, value, color, side: (idx%2===0 ? 'left' : 'right') };
       });
 
-      // Resolver colisiones verticales sin alterar Y del pin (ajustamos solo la etiqueta)
       let lastLeft=-Infinity, lastRight=-Infinity;
       points.forEach(p=>{
         let ly = p.y; const last = (p.side==='left')?lastLeft:lastRight;
@@ -542,14 +660,11 @@
         if (p.side==='left') lastLeft = ly; else lastRight = ly;
       });
 
-      // Auto-ajustar alto del contenedor si hace falta
       const maxLabelY = Math.max(...points.map(p=>p.labelY));
       const desiredHeight = Math.max(spine.clientHeight, maxLabelY + 80);
       spine.style.height = desiredHeight + 'px';
 
-      // Dibujar conectores (codo: horizontal + diagonal) y etiquetas
       points.forEach(p=>{
-        // --- tramo horizontal (no atraviesa el pin) ---
         const stem = document.createElement('div');
         stem.className = `stem ${p.side}`;
         stem.style.top = p.y + 'px';
@@ -561,9 +676,8 @@
         stem.style.setProperty('--rib-color', p.color);
         spine.appendChild(stem);
 
-        // --- tramo diagonal (anchura fija, ángulo calculado hacia labelY) ---
         const dy = p.labelY - p.y;
-        const ang = Math.atan2(dy, ribLen) * 180 / Math.PI; // grados
+        const ang = Math.atan2(dy, ribLen) * 180 / Math.PI;
         const rib = document.createElement('div');
         rib.className = `rib ${p.side}`;
         rib.style.setProperty('--ang', `${p.side==='right'? ang : -ang}deg`);
@@ -577,9 +691,10 @@
         spine.appendChild(rib);
       });
 
-      // Porcentajes por zona en la leyenda
       const z = {norte:0, centro:0, sur:0};
       REGIONS.forEach(r=>{ z[r.zone]+=r.count; });
+      const totalAll = z.norte + z.centro + z.sur;
+      const pctStr = (n)=> ((n/totalAll)*100).toFixed(1);
       const pN = document.getElementById('pctNorte'); if(pN) pN.textContent = `(${pctStr(z.norte)}%)`;
       const pC = document.getElementById('pctCentro'); if(pC) pC.textContent = `(${pctStr(z.centro)}%)`;
       const pS = document.getElementById('pctSur');   if(pS) pS.textContent = `(${pctStr(z.sur)}%)`;
